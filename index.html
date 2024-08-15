@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR code generator</title>
+    <link rel="stylesheet" href="qr.css">
+</head>
+<body>
+   <div class="container">
+        <p>générateur</p>
+        <input type="text" id="text" placeholder="enter text or url">
+
+        <div class="imgBOX">
+            <img src="luffy.jpg"  id="ok" >
+             
+        </div>
+
+        <button id="done">generate qr code</button>
+   </div>
+
+
+  <script>
+      
+      const container=document.querySelector(".container");
+const text = document.querySelector("#text");
+const done = document.querySelector("#done");
+const ok = document.querySelector("#ok");
+
+const generateqrcode = async () => {
+    if (text.value.trim() !== "") {
+
+
+        const url = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(text.value)}`;
+        
+        try {
+            const response = await fetch(url);
+            if (response.ok) {
+                const blob = await response.blob();
+                ok.src = URL.createObjectURL(blob);
+              
+            } else {
+                console.error('Failed to generate QR code');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
+}
+   
+
+done.addEventListener("click", (e) => {
+    e.preventDefault();
+    generateqrcode();
+   
+  
+});
+
+
+
+
+
+</script>
+    
+</body>
+</html>
